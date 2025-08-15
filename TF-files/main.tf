@@ -4,25 +4,31 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.0.0"
     }
+
   }
   backend "azurerm" {
-    resource_group_name  = "Paritala"
-    storage_account_name = "casestudy3sa1"
-    container_name       = "container12"
+    resource_group_name  = "backendazurerg"
+    storage_account_name = "backendrg"
+    container_name       = "testbacknd"
     key                  = "terraform.tfstate"
   }  
 }
 provider "azurerm" {
+  alias = "secondary"
   features {}
-  subscription_id = "de108057-2edc-44c6-9cdc-365886498d3e"
-  client_id       = "450e193b-0a68-445d-acaa-a9105d57060b"
-  tenant_id       = "7c733756-1a90-400f-863b-e0c6877412e8"
-  client_secret   = "var.secret"
+  skip_provider_registration = true
+}
+provider "azurerm" {
+  features {}
+  subscription_id = "426b8104-3a89-42f0-a3f5-14b554b1b2bb"
+  client_id       = "bf5e8e4f-3aea-40f9-bba6-0978ac70f104"
+  tenant_id       = "09201aea-fd49-442b-9a0d-8de2389cefaf"
+  client_secret   = "WtL8Q~2F1jhXJug7.42TcMEJInkXHZqhYZTfEdoR"
 }
 
 
 data "azurerm_resource_group" "rg" {
-  name = "Paritala"
+  name = "backendazurerg"
 }
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.prefix}vnetwork"
@@ -42,7 +48,8 @@ resource "azurerm_public_ip" "public_ip" {
   name                = "${var.prefix}vm_public_ip"
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 resource "azurerm_network_interface" "nic" {
@@ -115,11 +122,11 @@ resource "azurerm_storage_account" "my_storage_account" {
 resource "azurerm_windows_virtual_machine" "main" {
   name                  = "${var.prefix}vm10"
   admin_username        = "${var.VMNAME}"
-  admin_password        = "https://paritala-keyvault.vault.azure.net/secrets/vm-password/11e8948a7a2e4bd38589368d32973f6b"
+  admin_password        = "https://anshi-keyvault.vault.azure.net/secrets/vm-password/11e8948a7a2e4bd38589368d32973f6b"
   location              = data.azurerm_resource_group.rg.location
   resource_group_name   = data.azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.nic.id]
-  size                  = "Standard_DS1_v2"
+  size                  = "Standard_B2s"
 
   os_disk {
     name                 = "myOsDisk"
@@ -153,7 +160,7 @@ resource "azurerm_mssql_server" "sql-server" {
   location                     = data.azurerm_resource_group.rg.location
   version                      = "12.0"
   administrator_login          = "${var.SLOGIN}"
-  administrator_login_password = "https://paritala-keyvault.vault.azure.net/secrets/sql-password/df72ca5dcabd4da2aa06a4a23cab827e"
+  administrator_login_password = "https://anshi-keyvault.vault.azure.net/secrets/sql-password/df72ca5dcabd4da2aa06a4a23cab827e"
 }
 
 resource "azurerm_mssql_database" "db" {
