@@ -68,6 +68,14 @@ stages:
                downloadType: 'single'
                artifactName: 'drop'
                downloadPath: '$(System.ArtifactsDirectory)'
+             
+            - task: ExtractFiles@1
+              inputs:
+               archiveFilePatterns: '$(System.ArtifactsDirectory)/drop/WebApplication1.zip'
+               destinationFolder: 'C:\\inetpub\\wwwroot'
+               cleanDestinationFolder: true
+ 
+
        
             - task: IISWebAppManagementOnMachineGroup@0
               inputs:
@@ -78,7 +86,7 @@ stages:
                 WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
                 WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
 
-            - task: IISWebAppDeploymentOnMachineGroup@0
-              inputs:
-                WebSiteName: 'Default website'
-                Package: '$(System.ArtifactsDirectory)/drop/WebApplication1.zip'
+            # - task: IISWebAppDeploymentOnMachineGroup@0
+            #   inputs:
+            #     WebSiteName: 'Default website'
+            #     Package: '$(System.ArtifactsDirectory)/drop/WebApplication1.zip'
