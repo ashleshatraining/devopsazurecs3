@@ -122,7 +122,7 @@ resource "azurerm_storage_account" "my_storage_account" {
 resource "azurerm_windows_virtual_machine" "main" {
   name                  = "${var.prefix}vm10"
   admin_username        = "${var.VMNAME}"
-  admin_password        = "https://anshi-keyvault.vault.azure.net/secrets/vm-password/11e8948a7a2e4bd38589368d32973f6b"
+  admin_password        = "admin"
   location              = data.azurerm_resource_group.rg.location
   resource_group_name   = data.azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.nic.id]
@@ -160,7 +160,7 @@ resource "azurerm_mssql_server" "sql-server" {
   location                     = data.azurerm_resource_group.rg.location
   version                      = "12.0"
   administrator_login          = "${var.SLOGIN}"
-  administrator_login_password = "https://anshi-keyvault.vault.azure.net/secrets/sql-password/df72ca5dcabd4da2aa06a4a23cab827e"
+  administrator_login_password = "admin"
 }
 
 resource "azurerm_mssql_database" "db" {
