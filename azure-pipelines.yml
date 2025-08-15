@@ -103,4 +103,4 @@ stages:
             provider: 'azurerm'
             command: 'destroy'
             workingDirectory: '$(System.DefaultWorkingDirectory)/TF-files'
-            environmentServiceNameAzureRM: 'serviceconn1'
+            environmentServiceNameAzureRM: 'AZResourceconn'
