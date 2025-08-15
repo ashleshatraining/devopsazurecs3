@@ -57,7 +57,7 @@ stages:
   - stage: deploy 
     jobs:
     - deployment: Deploy 
-      environment: 'MyfirstassignmentCS1'
+      environment: 'azdepgrp'
       strategy:
        runOnce:
         deploy:  
