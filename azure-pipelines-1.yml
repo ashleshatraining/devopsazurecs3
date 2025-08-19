@@ -73,13 +73,13 @@ stages:
                   EnableIIS: true
                   IISDeploymentType: 'IISWebsite'
                   ActionIISWebsite: 'CreateOrUpdateWebsite'
-                  WebsiteName: 'DefaultWebSite'
+                  WebsiteName: 'Default Web Site'
                   WebsitePhysicalPath: '%SystemDrive%\inetpub\wwwroot'
                   WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
 
               - task: IISWebAppDeploymentOnMachineGroup@0
                 inputs:
-                  WebSiteName: 'DefaultWebSite'
+                  WebSiteName: 'Default Web Site'
                   Package: '$(System.ArtifactsDirectory)/drop/**/*.zip'
 
               # Optional: Verify deployment
